@@ -67,5 +67,20 @@ namespace NSEGUI
         {
             Application.Exit();
         }
+
+        private void btnEncrypt_Click(object sender, EventArgs e)
+        {
+            Encryption enc = new Encryption(rdoDES, rdoTripleDES, rdoRijndael, rdoRC2);
+        }
+
+        private void btnDecrypt_Click(object sender, EventArgs e)
+        {
+            Decryption dec = new Decryption(rdoDES, rdoTripleDES, rdoRijndael, rdoRC2);
+        }
+
+        private void btnDigest_Click(object sender, EventArgs e)
+        {
+            MessageDigest mes = new MessageDigest(rdoMD5, rdoSHA1, rdoSHA256, rdoSHA512);
+        }
     }
 }

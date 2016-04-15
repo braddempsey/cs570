@@ -257,6 +257,7 @@
             this.btnEncrypt.TabIndex = 11;
             this.btnEncrypt.Text = "ENCRYPT";
             this.btnEncrypt.UseVisualStyleBackColor = true;
+            this.btnEncrypt.Click += new System.EventHandler(this.btnEncrypt_Click);
             // 
             // btnDecrypt
             // 
@@ -266,6 +267,7 @@
             this.btnDecrypt.TabIndex = 12;
             this.btnDecrypt.Text = "DECRYPT";
             this.btnDecrypt.UseVisualStyleBackColor = true;
+            this.btnDecrypt.Click += new System.EventHandler(this.btnDecrypt_Click);
             // 
             // btnDigest
             // 
@@ -275,6 +277,7 @@
             this.btnDigest.TabIndex = 13;
             this.btnDigest.Text = "DIGEST";
             this.btnDigest.UseVisualStyleBackColor = true;
+            this.btnDigest.Click += new System.EventHandler(this.btnDigest_Click);
             // 
             // btnExit
             // 
