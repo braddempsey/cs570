@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+
 
 namespace NSEGUI
 {
@@ -25,21 +20,6 @@ namespace NSEGUI
         private void Form1_Load(object sender, EventArgs e)
         {
 
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void aboutOurCryptographySystemToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void btnBrowseInput_Click(object sender, EventArgs e)
@@ -65,6 +45,35 @@ namespace NSEGUI
                 outputPath = sfd.FileName;
                 //output = new FileStream(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write);
             }
+        }
+
+        private void openFileToEncryptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Text Document|*.txt";
+            ofd.Title = "Open file to encrypt";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtFileInput.Text = ofd.FileName;
+                input = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Text Document|*.txt";
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtFileOutput.Text = sfd.FileName;
+                outputPath = sfd.FileName;
+                //output = new FileStream(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -99,6 +108,7 @@ namespace NSEGUI
 
         private void btnDigest_Click(object sender, EventArgs e)
         {
+            //need if here to prevent using digest button without having selected an input file
             MemoryStream convert = new MemoryStream();
             input.CopyTo(convert);
             byte[] inputBytes = convert.GetBuffer();
@@ -109,5 +119,7 @@ namespace NSEGUI
             else if (rdoSHA512.Checked) { File.WriteAllBytes(outputPath, mes.sha512()); }
             else { Console.WriteLine("None Selected"); }
         }
+
+
     }
 }

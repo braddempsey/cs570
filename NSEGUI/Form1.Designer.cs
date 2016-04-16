@@ -57,6 +57,9 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutOurCryptographySystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileToEncryptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Encrypt.SuspendLayout();
             this.messageDigestBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -112,7 +115,6 @@
             this.label1.Size = new System.Drawing.Size(75, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "Input File";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -177,7 +179,6 @@
             this.rdoTripleDES.TabStop = true;
             this.rdoTripleDES.Text = "TripleDES";
             this.rdoTripleDES.UseVisualStyleBackColor = true;
-            this.rdoTripleDES.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // Encrypt
             // 
@@ -320,6 +321,10 @@
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openFileToEncryptToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -339,12 +344,26 @@
             this.tutorialToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.tutorialToolStripMenuItem.Text = "Tutorial";
             // 
-            // aboutOurCryptographySystemToolStripMenuItem
+            // openFileToEncryptToolStripMenuItem
             // 
-            this.aboutOurCryptographySystemToolStripMenuItem.Name = "aboutOurCryptographySystemToolStripMenuItem";
-            this.aboutOurCryptographySystemToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.aboutOurCryptographySystemToolStripMenuItem.Text = "About Our Cryptography System";
-            this.aboutOurCryptographySystemToolStripMenuItem.Click += new System.EventHandler(this.aboutOurCryptographySystemToolStripMenuItem_Click);
+            this.openFileToEncryptToolStripMenuItem.Name = "openFileToEncryptToolStripMenuItem";
+            this.openFileToEncryptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openFileToEncryptToolStripMenuItem.Text = "Open...";
+            this.openFileToEncryptToolStripMenuItem.Click += new System.EventHandler(this.openFileToEncryptToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "Save...";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -414,6 +433,9 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tutorialToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutOurCryptographySystemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openFileToEncryptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 
