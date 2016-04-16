@@ -20,6 +20,7 @@ namespace NSEGUI
 
         FileStream input;
         FileStream output;
+        string outputPath;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -61,7 +62,8 @@ namespace NSEGUI
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 txtFileOutput.Text = sfd.FileName;
-                output = new FileStream(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+                outputPath = sfd.FileName;
+                //output = new FileStream(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write);
             }
         }
 
@@ -101,10 +103,10 @@ namespace NSEGUI
             input.CopyTo(convert);
             byte[] inputBytes = convert.GetBuffer();
             MessageDigest mes = new MessageDigest(inputBytes);
-            if (rdoMD5.Checked) { output.Write(mes.md5(), 0, mes.md5().Length); }
-            else if (rdoSHA1.Checked) { output.Write(mes.sha1(), 0, mes.sha1().Length); }
-            else if (rdoSHA256.Checked) { output.Write(mes.sha256(), 0, mes.sha256().Length); }
-            else if (rdoSHA512.Checked) { output.Write(mes.sha512(), 0, mes.sha512().Length); }
+            if (rdoMD5.Checked) { File.WriteAllBytes(outputPath, mes.md5()); }
+            else if (rdoSHA1.Checked) { File.WriteAllBytes(outputPath, mes.sha1()); }
+            else if (rdoSHA256.Checked) { File.WriteAllBytes(outputPath, mes.sha256()); }
+            else if (rdoSHA512.Checked) { File.WriteAllBytes(outputPath, mes.sha512()); }
             else { Console.WriteLine("None Selected"); }
         }
     }
