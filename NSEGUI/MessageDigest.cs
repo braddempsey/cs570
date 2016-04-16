@@ -3,38 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace NSEGUI
 {
     class MessageDigest
     {
-        public MessageDigest(System.Windows.Forms.RadioButton rdoMD5, System.Windows.Forms.RadioButton rdoSHA1, System.Windows.Forms.RadioButton rdoSHA256, System.Windows.Forms.RadioButton rdoSHA512)
+        byte[] input;
+        public MessageDigest(byte[] inp)
         {
-            if (rdoMD5.Checked) { md5(); }
-            else if (rdoSHA1.Checked) { sha1(); }
-            else if (rdoSHA256.Checked) { sha256(); }
-            else if (rdoSHA512.Checked) { sha512(); }
-            else { Console.WriteLine("None Selected"); }
+            input = inp;
         }
 
-        private void md5()
+ 
+        public byte[] md5()
         {
             Console.WriteLine("Mes MD5");
+            byte[] hash = MD5.Create().ComputeHash(input);
+            return hash;
+            //return new byte[0];
         }
 
-        private void sha1()
+        public byte[] sha1()
         {
             Console.WriteLine("Mes sha1");
+            return new byte[0];
         }
 
-        private void sha256()
+        public byte[] sha256()
         {
             Console.WriteLine("Mes SHA256");
+            return new byte[0];
         }
 
-        private void sha512()
+        public byte[] sha512()
         {
             Console.WriteLine("Mes SHA512");
+            return new byte[0];
         }
     }
 }

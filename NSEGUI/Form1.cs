@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace NSEGUI
@@ -16,6 +17,9 @@ namespace NSEGUI
         {
             InitializeComponent();
         }
+
+        FileStream input;
+        FileStream output;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -45,6 +49,8 @@ namespace NSEGUI
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)          
             {
                 txtFileInput.Text = ofd.FileName;
+                input = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+
             }
         }
 
@@ -55,6 +61,7 @@ namespace NSEGUI
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 txtFileOutput.Text = sfd.FileName;
+                output = new FileStream(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write);
             }
         }
 
@@ -70,17 +77,35 @@ namespace NSEGUI
 
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
-            Encryption enc = new Encryption(rdoDES, rdoTripleDES, rdoRijndael, rdoRC2);
+            Encryption enc = new Encryption(input);
+            if (rdoDES.Checked) { enc.des(); }
+            else if (rdoRC2.Checked) { enc.rc2(); }
+            else if (rdoRijndael.Checked) { enc.rijndael(); }
+            else if (rdoTripleDES.Checked) { enc.tripledes(); }
+            else { Console.WriteLine("None Selected"); }
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
-            Decryption dec = new Decryption(rdoDES, rdoTripleDES, rdoRijndael, rdoRC2);
+            Decryption dec = new Decryption(input);
+            if (rdoDES.Checked) { dec.des(); }
+            else if (rdoRC2.Checked) { dec.rc2(); }
+            else if (rdoRijndael.Checked) { dec.rijndael(); }
+            else if (rdoTripleDES.Checked) { dec.tripledes(); }
+            else { Console.WriteLine("None Selected"); }
         }
 
         private void btnDigest_Click(object sender, EventArgs e)
         {
-            MessageDigest mes = new MessageDigest(rdoMD5, rdoSHA1, rdoSHA256, rdoSHA512);
+            MemoryStream convert = new MemoryStream();
+            input.CopyTo(convert);
+            byte[] inputBytes = convert.GetBuffer();
+            MessageDigest mes = new MessageDigest(inputBytes);
+            if (rdoMD5.Checked) { output.Write(mes.md5(), 0, mes.md5().Length); }
+            else if (rdoSHA1.Checked) { output.Write(mes.sha1(), 0, mes.sha1().Length); }
+            else if (rdoSHA256.Checked) { output.Write(mes.sha256(), 0, mes.sha256().Length); }
+            else if (rdoSHA512.Checked) { output.Write(mes.sha512(), 0, mes.sha512().Length); }
+            else { Console.WriteLine("None Selected"); }
         }
     }
 }
