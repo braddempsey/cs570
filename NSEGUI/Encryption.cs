@@ -31,13 +31,32 @@ namespace NSEGUI
 
             return pdb;
         }
+
         public void des()
         {
             Console.WriteLine("Enc DES w/ pass: " + password);
             try
             {
+                PasswordDeriveBytes pdb = passwordCrunch(password);
+                string cryptFile = outputPath;
 
+                DES des = DES.Create();
+                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+
+                CryptoStream cs = new CryptoStream(fsCrypt, des.CreateEncryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Write);
+
+                FileStream fsIn = new FileStream(inputPath, FileMode.Open);
+
+                int data;
+                while ((data = fsIn.ReadByte()) != -1) cs.WriteByte((byte)data);
+
+
+                fsIn.Close();
+                cs.Close();
+                fsCrypt.Close();
             }
+
             catch
             {
                 Console.WriteLine("Encryption failed!", "Error");
@@ -46,7 +65,32 @@ namespace NSEGUI
 
         public void rc2()
         {
-            Console.WriteLine("Enc RC2");
+            try
+            {
+                PasswordDeriveBytes pdb = passwordCrunch(password);
+                string cryptFile = outputPath;
+
+                RC2 rcTwo = RC2.Create();
+                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+
+                CryptoStream cs = new CryptoStream(fsCrypt, rcTwo.CreateEncryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Write);
+
+                FileStream fsIn = new FileStream(inputPath, FileMode.Open);
+
+                int data;
+                while ((data = fsIn.ReadByte()) != -1) cs.WriteByte((byte)data);
+
+
+                fsIn.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+
+            catch
+            {
+                Console.WriteLine("Encryption failed!", "Error");
+            }
         }
 
         public void rijndael()
@@ -83,6 +127,33 @@ namespace NSEGUI
         public void tripledes()
         {
             Console.WriteLine("Enc 3DES");
+            try
+            {
+                PasswordDeriveBytes pdb = passwordCrunch(password);
+                string cryptFile = outputPath;
+
+                TripleDES tripleDES = TripleDES.Create();
+                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+
+                CryptoStream cs = new CryptoStream(fsCrypt, tripleDES.CreateEncryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Write);
+
+                FileStream fsIn = new FileStream(inputPath, FileMode.Open);
+
+                int data;
+                while ((data = fsIn.ReadByte()) != -1) cs.WriteByte((byte)data);
+
+
+                fsIn.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+
+            catch
+            {
+                Console.WriteLine("Encryption failed!", "Error");
+            }
+
         }
     }
 }
