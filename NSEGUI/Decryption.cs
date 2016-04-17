@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;    //filestream
+using System.Security;
+using System.Security.Cryptography;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace NSEGUI
 {
@@ -32,6 +36,33 @@ namespace NSEGUI
         public void rijndael()
         {
             Console.WriteLine("Dec Rijn");
+            //try
+            //{
+                PasswordDeriveBytes pdb = new PasswordDeriveBytes(password,
+                    new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                    0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76}); ;
+
+                FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
+
+                RijndaelManaged RMCrypto = new RijndaelManaged();
+                RMCrypto.Padding = PaddingMode.Zeros;
+
+                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(32), pdb.GetBytes(16)), CryptoStreamMode.Read);
+                //cs.Padding = PaddingMode.none;
+
+                FileStream fsOut = new FileStream(outputPath, FileMode.Create);
+
+                int data;
+                while ((data = fsOut.ReadByte()) != -1) fsOut.WriteByte((byte)data);
+
+                fsOut.Close();
+                cs.Close();
+                fsCrypt.Close();
+            /*}
+            catch
+            {
+                Console.WriteLine("Decryption Failed");
+            }*/
         }
 
         public void tripledes()
