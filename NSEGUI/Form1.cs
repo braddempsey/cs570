@@ -111,7 +111,7 @@ namespace NSEGUI
             //need if here to prevent using digest button without having selected an input file
             MemoryStream convert = new MemoryStream();
             input.CopyTo(convert);
-            byte[] inputBytes = convert.GetBuffer();
+            byte[] inputBytes = convert.GetBuffer();//try ToArray
             MessageDigest mes = new MessageDigest(inputBytes);
             if (rdoMD5.Checked) { File.WriteAllBytes(outputPath, mes.md5()); }
             else if (rdoSHA1.Checked) { File.WriteAllBytes(outputPath, mes.sha1()); }
