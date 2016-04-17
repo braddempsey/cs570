@@ -30,7 +30,6 @@ namespace NSEGUI
             {
                 txtFileInput.Text = ofd.FileName;
                 inputPath = ofd.FileName;
-                Console.WriteLine(inputPath);
                 //input = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
         }
