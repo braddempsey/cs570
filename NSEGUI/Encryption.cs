@@ -23,6 +23,7 @@ namespace NSEGUI
             outputPath = output;
         }
 
+
         public void des()
         {
             Console.WriteLine("Enc DES w/ pass: " + password);
@@ -46,15 +47,17 @@ namespace NSEGUI
             Console.WriteLine("Enc Rijn w/ pass: " + password);
             try
             {
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
+
+                PasswordDeriveBytes pdb = new PasswordDeriveBytes(password,
+                new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
 
                 string cryptFile = outputPath;
                 FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
 
                 RijndaelManaged RMCrypto = new RijndaelManaged();
 
-                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write); //THIS IS WHERE THE ERROR IS
+                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(pdb.GetBytes(32), pdb.GetBytes(16)), CryptoStreamMode.Write); //THIS IS WHERE THE ERROR IS
 
                 FileStream fsIn = new FileStream(inputPath, FileMode.Open);
 
