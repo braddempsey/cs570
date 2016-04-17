@@ -129,14 +129,15 @@ namespace NSEGUI
             Console.WriteLine("Enc 3DES");
             try
             {
-                PasswordDeriveBytes pdb = passwordCrunch(password);
+                PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, new byte[] 
+                    { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F });
                 string cryptFile = outputPath;
 
                 TripleDES tripleDES = TripleDES.Create();
                 FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
 
 
-                CryptoStream cs = new CryptoStream(fsCrypt, tripleDES.CreateEncryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Write);
+                CryptoStream cs = new CryptoStream(fsCrypt, tripleDES.CreateEncryptor(pdb.GetBytes(16), pdb.GetBytes(16)), CryptoStreamMode.Write);
 
                 FileStream fsIn = new FileStream(inputPath, FileMode.Open);
 
