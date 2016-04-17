@@ -23,6 +23,15 @@ namespace NSEGUI
             outputPath = output;
         }
 
+        private PasswordDeriveBytes passwordCrunch(string password)
+        {
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password,
+                new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+
+            return pdb;
+        }
+
         public void des()
         {
             Console.WriteLine("Dec DES");
@@ -38,9 +47,7 @@ namespace NSEGUI
             Console.WriteLine("Dec Rijn");
             //try
             //{
-                PasswordDeriveBytes pdb = new PasswordDeriveBytes(password,
-                    new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
-                    0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76}); ;
+                PasswordDeriveBytes pdb = passwordCrunch(password);
 
                 FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
 
@@ -48,7 +55,6 @@ namespace NSEGUI
                 RMCrypto.Padding = PaddingMode.Zeros;
 
                 CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(32), pdb.GetBytes(16)), CryptoStreamMode.Read);
-                //cs.Padding = PaddingMode.none;
 
                 FileStream fsOut = new FileStream(outputPath, FileMode.Create);
 

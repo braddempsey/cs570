@@ -106,7 +106,7 @@ namespace NSEGUI
 
                 RijndaelManaged RMCrypto = new RijndaelManaged();
 
-                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(pdb.GetBytes(32), pdb.GetBytes(16)), CryptoStreamMode.Write); //THIS IS WHERE THE ERROR IS
+                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(pdb.GetBytes(32), pdb.GetBytes(16)), CryptoStreamMode.Write);
 
                 FileStream fsIn = new FileStream(inputPath, FileMode.Open);
 
