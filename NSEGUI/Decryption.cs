@@ -36,41 +36,72 @@ namespace NSEGUI
         {
             Console.WriteLine("Dec DES");
 
-            PasswordDeriveBytes pdb = passwordCrunch(password);
-
-            FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
-
-            DES RMCrypto = DES.Create();
-            RMCrypto.Padding = PaddingMode.Zeros;
-
-            CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Read);
-
-            FileStream fsOut = new FileStream(outputPath, FileMode.Create);
-
-            int data;
-            while ((data = cs.ReadByte()) != -1) fsOut.WriteByte((byte)data);
-
-            fsOut.Close();
-            cs.Close();
-            fsCrypt.Close();
-
-        }
-
-        public void rc2()
-        {
-            Console.WriteLine("Dec RC2");
-        }
-
-        public void rijndael()
-        {
-            Console.WriteLine("Dec Rijn");
-            //try
-            //{
+            try
+            {
                 PasswordDeriveBytes pdb = passwordCrunch(password);
 
                 FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
 
-                RijndaelManaged RMCrypto = new RijndaelManaged();
+                DES RMCrypto = DES.Create();
+
+                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Read);
+
+                FileStream fsOut = new FileStream(outputPath, FileMode.Create);
+
+                int data;
+                while ((data = cs.ReadByte()) != -1) fsOut.WriteByte((byte)data);
+
+                fsOut.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+            catch
+            {
+                Console.WriteLine("Decryption Failed");
+            }
+
+}
+
+        public void rc2()
+        {
+            Console.WriteLine("Dec RC2");
+
+            try
+            {
+                PasswordDeriveBytes pdb = passwordCrunch(password);
+
+                FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
+
+                RC2 RMCrypto = RC2.Create();
+
+                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Read);
+
+                FileStream fsOut = new FileStream(outputPath, FileMode.Create);
+
+                int data;
+                while ((data = cs.ReadByte()) != -1) fsOut.WriteByte((byte)data);
+
+                fsOut.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+            catch
+            {
+                Console.WriteLine("Decryption Failed");
+            }
+}
+
+        public void rijndael()
+        {
+            Console.WriteLine("Dec Rijn");
+            try
+            {
+
+                PasswordDeriveBytes pdb = passwordCrunch(password);
+
+                FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
+
+                Rijndael RMCrypto = Rijndael.Create();
                 RMCrypto.Padding = PaddingMode.Zeros;
 
                 CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(32), pdb.GetBytes(16)), CryptoStreamMode.Read);
@@ -78,21 +109,48 @@ namespace NSEGUI
                 FileStream fsOut = new FileStream(outputPath, FileMode.Create);
 
                 int data;
-                while ((data = fsOut.ReadByte()) != -1) fsOut.WriteByte((byte)data);
+                while ((data = cs.ReadByte()) != -1) fsOut.WriteByte((byte)data);
 
                 fsOut.Close();
                 cs.Close();
                 fsCrypt.Close();
-            /*}
+            }
             catch
             {
                 Console.WriteLine("Decryption Failed");
-            }*/
+            }
         }
 
         public void tripledes()
         {
             Console.WriteLine("Dec 3DES");
-        }
+
+            try
+            {
+                PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, new byte[]
+                        { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F });
+
+                FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
+
+                DES RMCrypto = DES.Create();
+                RMCrypto.Padding = PaddingMode.Zeros;
+
+                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(16), pdb.GetBytes(16)), CryptoStreamMode.Read);
+
+                FileStream fsOut = new FileStream(outputPath, FileMode.Create);
+
+                int data;
+                while ((data = cs.ReadByte()) != -1) fsOut.WriteByte((byte)data);
+
+                fsOut.Close();
+                cs.Close();
+                fsCrypt.Close();
+
+            }
+            catch
+            {
+                Console.WriteLine("Decryption Failed");
+            }
+}
     }
 }
