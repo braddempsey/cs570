@@ -23,7 +23,14 @@ namespace NSEGUI
             outputPath = output;
         }
 
+        private PasswordDeriveBytes passwordCrunch(string password)
+        {
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password,
+                new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
 
+            return pdb;
+        }
         public void des()
         {
             Console.WriteLine("Enc DES w/ pass: " + password);
@@ -48,9 +55,7 @@ namespace NSEGUI
             try
             {
 
-                PasswordDeriveBytes pdb = new PasswordDeriveBytes(password,
-                new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
-                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+                PasswordDeriveBytes pdb = passwordCrunch(password);
 
                 string cryptFile = outputPath;
                 FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
