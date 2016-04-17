@@ -13,9 +13,8 @@ namespace NSEGUI
             InitializeComponent();
         }
 
-        FileStream input;
-        FileStream output;
         string outputPath;
+        string inputPath;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -30,8 +29,8 @@ namespace NSEGUI
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)          
             {
                 txtFileInput.Text = ofd.FileName;
-                input = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
+                inputPath = ofd.FileName;
+                //input = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
         }
 
@@ -49,26 +48,12 @@ namespace NSEGUI
 
         private void openFileToEncryptToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Text Document|*.txt";
-            ofd.Title = "Open file to encrypt";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                txtFileInput.Text = ofd.FileName;
-                input = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            }
+            btnBrowseInput_Click(sender, e);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Text Document|*.txt";
-            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                txtFileOutput.Text = sfd.FileName;
-                outputPath = sfd.FileName;
-                //output = new FileStream(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write);
-            }
+            btnBrowseOutput_Click(sender, e);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -88,7 +73,7 @@ namespace NSEGUI
 
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
-            Encryption enc = new Encryption(input);
+            Encryption enc = new Encryption(txtPassword.Text, inputPath, outputPath);
             if (rdoDES.Checked) { enc.des(); }
             else if (rdoRC2.Checked) { enc.rc2(); }
             else if (rdoRijndael.Checked) { enc.rijndael(); }
@@ -98,7 +83,7 @@ namespace NSEGUI
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
-            Decryption dec = new Decryption(input);
+            Decryption dec = new Decryption(txtPassword.Text, inputPath, outputPath);
             if (rdoDES.Checked) { dec.des(); }
             else if (rdoRC2.Checked) { dec.rc2(); }
             else if (rdoRijndael.Checked) { dec.rijndael(); }
@@ -109,9 +94,10 @@ namespace NSEGUI
         private void btnDigest_Click(object sender, EventArgs e)
         {
             //need if here to prevent using digest button without having selected an input file
+            FileStream input = new FileStream(inputPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             MemoryStream convert = new MemoryStream();
             input.CopyTo(convert);
-            byte[] inputBytes = convert.GetBuffer();//try ToArray
+            byte[] inputBytes = convert.ToArray();//try ToArray
             MessageDigest mes = new MessageDigest(inputBytes);
             if (rdoMD5.Checked) { File.WriteAllBytes(outputPath, mes.md5()); }
             else if (rdoSHA1.Checked) { File.WriteAllBytes(outputPath, mes.sha1()); }
@@ -119,7 +105,5 @@ namespace NSEGUI
             else if (rdoSHA512.Checked) { File.WriteAllBytes(outputPath, mes.sha512()); }
             else { Console.WriteLine("None Selected"); }
         }
-
-
     }
 }

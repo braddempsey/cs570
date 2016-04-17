@@ -9,10 +9,14 @@ namespace NSEGUI
 {
     class Decryption
     {
-        FileStream input;
-        public Decryption(FileStream inp)
+        string password;
+        string outputPath;
+        string inputPath;
+        public Decryption(string pass, string inp, string output)
         {
-            input = inp;
+            inputPath = inp;
+            password = pass;
+            outputPath = output;
         }
 
         public void des()
