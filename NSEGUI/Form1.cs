@@ -93,18 +93,24 @@ namespace NSEGUI
 
         private void btnDigest_Click(object sender, EventArgs e)
         {
-            //need if here to prevent using digest button without having selected an input file
-            FileStream input = new FileStream(inputPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            MemoryStream convert = new MemoryStream();
-            input.CopyTo(convert);
-            byte[] inputBytes = convert.ToArray();//try ToArray
-            MessageDigest mes = new MessageDigest(inputBytes);
-            if (rdoMD5.Checked) { File.WriteAllBytes(outputPath, mes.md5()); }
-            else if (rdoSHA1.Checked) { File.WriteAllBytes(outputPath, mes.sha1()); }
-            else if (rdoSHA256.Checked) { File.WriteAllBytes(outputPath, mes.sha256()); }
-            else if (rdoSHA512.Checked) { File.WriteAllBytes(outputPath, mes.sha512()); }
-            else { Console.WriteLine("None Selected"); }
-            input.Close();
+            try
+            {
+                FileStream input = new FileStream(inputPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                MemoryStream convert = new MemoryStream();
+                input.CopyTo(convert);
+                byte[] inputBytes = convert.ToArray();//try ToArray
+                MessageDigest mes = new MessageDigest(inputBytes);
+                if (rdoMD5.Checked) { File.WriteAllBytes(outputPath, mes.md5()); }
+                else if (rdoSHA1.Checked) { File.WriteAllBytes(outputPath, mes.sha1()); }
+                else if (rdoSHA256.Checked) { File.WriteAllBytes(outputPath, mes.sha256()); }
+                else if (rdoSHA512.Checked) { File.WriteAllBytes(outputPath, mes.sha512()); }
+                else { Console.WriteLine("None Selected"); }
+                input.Close();
+            }
+            catch
+            {
+                Console.WriteLine("Nothing in input or output file");
+            }
         }
     }
 }

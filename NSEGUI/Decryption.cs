@@ -35,6 +35,25 @@ namespace NSEGUI
         public void des()
         {
             Console.WriteLine("Dec DES");
+
+            PasswordDeriveBytes pdb = passwordCrunch(password);
+
+            FileStream fsCrypt = new FileStream(inputPath, FileMode.Open);
+
+            DES RMCrypto = DES.Create();
+            RMCrypto.Padding = PaddingMode.Zeros;
+
+            CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Read);
+
+            FileStream fsOut = new FileStream(outputPath, FileMode.Create);
+
+            int data;
+            while ((data = cs.ReadByte()) != -1) fsOut.WriteByte((byte)data);
+
+            fsOut.Close();
+            cs.Close();
+            fsCrypt.Close();
+
         }
 
         public void rc2()

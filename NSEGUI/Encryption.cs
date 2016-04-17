@@ -47,7 +47,7 @@ namespace NSEGUI
                 CryptoStream cs = new CryptoStream(fsCrypt, des.CreateEncryptor(pdb.GetBytes(8), pdb.GetBytes(8)), CryptoStreamMode.Write);
 
                 FileStream fsIn = new FileStream(inputPath, FileMode.Open);
-
+                
                 int data;
                 while ((data = fsIn.ReadByte()) != -1) cs.WriteByte((byte)data);
 
