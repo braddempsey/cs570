@@ -65,6 +65,7 @@ namespace NSEGUI
 
         public void rc2()
         {
+            Console.WriteLine("Enc RC2 w/ pass: " + password);
             try
             {
                 PasswordDeriveBytes pdb = passwordCrunch(password);
@@ -126,7 +127,7 @@ namespace NSEGUI
 
         public void tripledes()
         {
-            Console.WriteLine("Enc 3DES");
+            Console.WriteLine("Enc 3DES w/ pass: " + password);
             try
             {
                 PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, new byte[] 

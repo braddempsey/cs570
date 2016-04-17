@@ -22,25 +22,27 @@ namespace NSEGUI
             Console.WriteLine("Mes MD5");
             byte[] hash = MD5.Create().ComputeHash(input);
             return hash;
-            //return new byte[0];
         }
 
         public byte[] sha1()
         {
             Console.WriteLine("Mes sha1");
-            return new byte[0];
+            byte[] hash = SHA1.Create().ComputeHash(input);
+            return hash;
         }
 
         public byte[] sha256()
         {
             Console.WriteLine("Mes SHA256");
-            return new byte[0];
+            byte[] hash = SHA256.Create().ComputeHash(input);
+            return hash;
         }
 
         public byte[] sha512()
         {
             Console.WriteLine("Mes SHA512");
-            return new byte[0];
+            byte[] hash = SHA512.Create().ComputeHash(input);
+            return hash;
         }
     }
 }
