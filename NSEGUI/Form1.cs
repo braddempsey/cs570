@@ -30,6 +30,7 @@ namespace NSEGUI
             {
                 txtFileInput.Text = ofd.FileName;
                 inputPath = ofd.FileName;
+                Console.WriteLine(inputPath);
                 //input = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
         }
@@ -104,6 +105,7 @@ namespace NSEGUI
             else if (rdoSHA256.Checked) { File.WriteAllBytes(outputPath, mes.sha256()); }
             else if (rdoSHA512.Checked) { File.WriteAllBytes(outputPath, mes.sha512()); }
             else { Console.WriteLine("None Selected"); }
+            input.Close();
         }
     }
 }

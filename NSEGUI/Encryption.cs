@@ -28,7 +28,7 @@ namespace NSEGUI
             Console.WriteLine("Enc DES w/ pass: " + password);
             try
             {
-                
+
             }
             catch
             {
@@ -54,7 +54,7 @@ namespace NSEGUI
 
                 RijndaelManaged RMCrypto = new RijndaelManaged();
 
-                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write);
+                CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write); //THIS IS WHERE THE ERROR IS
 
                 FileStream fsIn = new FileStream(inputPath, FileMode.Open);
 
